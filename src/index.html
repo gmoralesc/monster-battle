@@ -18,7 +18,7 @@
             <li class="button poison">poison</li>
           </ul>
           <div class="meter">
-            <span class="bar green" style="width: 100%"></span>
+            <span id="bar" class="bar green" style="width: 100%"></span>
           </div>
           <div class="health">60/60</div>
         </div>
@@ -76,5 +76,34 @@
       This is not an official pokemon game, this is only for educational
       proposes
     </p>
+    <script>
+      function getRandomNumber(max = 1, min = 1) {
+        return min + Math.floor(Math.random() * max);
+      }
+
+      function calculateStatus(initial, current, count) {
+        const newHealth = Math.max(0, current - count);
+        const newPercentage = Math.ceil((newHealth / initial) * 100);
+        return {
+          newHealth,
+          newPercentage,
+        };
+      }
+
+      const bar = document.getElementById("bar");
+      const health = {
+        initial: 69,
+        current: 69,
+      };
+
+      const { newHealth, newPercentage } = calculateStatus(
+        health.initial,
+        health.current,
+        getRandomNumber(20)
+      );
+
+      health.current = newHealth;
+      bar.setAttribute("style", `width: ${newPercentage}%`);
+    </script>
   </body>
 </html>
