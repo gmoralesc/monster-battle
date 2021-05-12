@@ -76,34 +76,30 @@
       This is not an official pokemon game, this is only for educational
       proposes
     </p>
+    <script src="utils.js"></script>
     <script>
-      function getRandomNumber(max = 1, min = 1) {
-        return min + Math.floor(Math.random() * max);
-      }
-
-      function calculateStatus(initial, current, count) {
-        const newHealth = Math.max(0, current - count);
-        const newPercentage = Math.ceil((newHealth / initial) * 100);
-        return {
-          newHealth,
-          newPercentage,
-        };
-      }
-
       const bar = document.getElementById("bar");
       const health = {
         initial: 69,
         current: 69,
+        bar: "green",
       };
 
       const { newHealth, newPercentage } = calculateStatus(
         health.initial,
         health.current,
-        getRandomNumber(20)
+        getRandomNumber(50)
       );
 
+      const newBarColor = calculateBarColor(newPercentage);
+      const previousBarColor = health.bar;
+
       health.current = newHealth;
+      health.bar = newBarColor;
+
       bar.setAttribute("style", `width: ${newPercentage}%`);
+      bar.classList.remove(previousBarColor);
+      bar.classList.add(newBarColor);
     </script>
   </body>
 </html>
