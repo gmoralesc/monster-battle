@@ -8,7 +8,7 @@
   </head>
   <body>
     <section id="arena">
-      <div class="column">
+      <div class="column" id="pokemon1">
         <div class="status">
           <div class="info">
             <p class="name">ivysaur</p>
@@ -18,7 +18,7 @@
             <li class="button poison">poison</li>
           </ul>
           <div class="meter">
-            <span id="bar" class="bar green" style="width: 100%"></span>
+            <span class="bar green" style="width: 100%"></span>
           </div>
           <div class="health">60/60</div>
         </div>
@@ -28,7 +28,7 @@
           />
         </div>
       </div>
-      <div class="column">
+      <div class="column" id="pokemon2">
         <div class="pokemon">
           <img
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
@@ -78,28 +78,36 @@
     </p>
     <script src="utils.js"></script>
     <script>
-      const bar = document.getElementById("bar");
+      // Setup
+      const container = document.getElementById("pokemon1");
+      const [bar] = container.getElementsByClassName("bar");
+
+      // State
       const health = {
         initial: 69,
         current: 69,
         bar: "green",
       };
 
+      // Turn
       const { newHealth, newPercentage } = calculateStatus(
         health.initial,
         health.current,
         getRandomNumber(50)
       );
-
       const newBarColor = calculateBarColor(newPercentage);
       const previousBarColor = health.bar;
 
+      // Update State
       health.current = newHealth;
       health.bar = newBarColor;
 
-      bar.setAttribute("style", `width: ${newPercentage}%`);
-      bar.classList.remove(previousBarColor);
-      bar.classList.add(newBarColor);
+      // Update UI
+      setTimeout(() => {
+        bar.setAttribute("style", `width: ${newPercentage}%`);
+        bar.classList.remove(previousBarColor);
+        bar.classList.add(newBarColor);
+      }, 0);
     </script>
   </body>
 </html>
