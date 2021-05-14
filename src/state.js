@@ -36,5 +36,39 @@ const state = {
         health: null,
       },
     },
+    {
+      name: "charmeleon",
+      health: {
+        initial: 58,
+        current: 58,
+        bar: "green",
+      },
+      avatar:
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png",
+      types: [
+        {
+          name: "fire",
+        },
+      ],
+      moves: [
+        {
+          name: "mega-punch",
+        },
+        {
+          name: "fire-punch",
+        },
+        {
+          name: "thunder-punch",
+        },
+        {
+          name: "scratch",
+        },
+      ],
+      _ui: {
+        bar: null,
+        health: null,
+      },
+    },
   ],
+  position: 1,
 };

@@ -80,16 +80,25 @@
     <script src="state.js"></script>
     <script>
       // Setup
-      const [pokemon] = state.pokemons;
-      const arena = document.getElementById("arena");
-      const [container] = document.getElementsByClassName("column");
-      const [bar] = container.getElementsByClassName("bar");
-      const [health] = container.getElementsByClassName("health");
+      function setup() {
+        const { pokemons = [] } = state;
+        const arena = document.getElementById("arena");
+        const columns = document.getElementsByClassName("column");
 
-      pokemon._ui.bar = bar;
-      pokemon._ui.health = health;
+        pokemons.forEach((pokemon, index) => {
+          const container = columns[index];
+          const [bar] = container.getElementsByClassName("bar");
+          const [health] = container.getElementsByClassName("health");
+
+          pokemon._ui.bar = bar;
+          pokemon._ui.health = health;
+        });
+      }
 
       function turn() {
+        const { pokemons = [], position = 0 } = state;
+        const pokemon = pokemons[position];
+
         // Turn
         const { newHealth, newPercentage } = calculateStatus(
           pokemon.health.initial,
@@ -111,12 +120,18 @@
         pokemon._ui.health.textContent = `${pokemon.health.current}/${pokemon.health.initial}`;
       }
 
+      setup();
       const game = setInterval(function play() {
+        const { pokemons = [], position = 0 } = state;
+        const pokemon = pokemons[position];
+
         turn();
 
         if (pokemon.health.current === 0) {
           clearInterval(game);
         }
+
+        state.position = (state.position + 1) % 2;
       }, 1000);
     </script>
   </body>
