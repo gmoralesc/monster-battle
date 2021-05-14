@@ -8,7 +8,7 @@
   </head>
   <body>
     <section id="arena">
-      <div class="column" id="pokemon1">
+      <div class="column">
         <div class="status">
           <div class="info">
             <p class="name">ivysaur</p>
@@ -28,7 +28,7 @@
           />
         </div>
       </div>
-      <div class="column" id="pokemon2">
+      <div class="column">
         <div class="pokemon">
           <img
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
@@ -77,47 +77,44 @@
       proposes
     </p>
     <script src="utils.js"></script>
+    <script src="state.js"></script>
     <script>
       // Setup
-      const container = document.getElementById("pokemon1");
+      const [pokemon] = state.pokemons;
+      const arena = document.getElementById("arena");
+      const [container] = document.getElementsByClassName("column");
       const [bar] = container.getElementsByClassName("bar");
       const [health] = container.getElementsByClassName("health");
 
-      // State
-      const state = {
-        health: {
-          initial: 69,
-          current: 69,
-          bar: "green",
-        },
-      };
+      pokemon._ui.bar = bar;
+      pokemon._ui.health = health;
 
       function turn() {
         // Turn
         const { newHealth, newPercentage } = calculateStatus(
-          state.health.initial,
-          state.health.current,
-          getRandomNumber(50)
+          pokemon.health.initial,
+          pokemon.health.current,
+          getRandomNumber(20)
         );
         const newBarColor = calculateBarColor(newPercentage);
-        const previousBarColor = state.health.bar;
+        const previousBarColor = pokemon.health.bar;
 
         // Update State
-        state.health.current = newHealth;
-        state.health.bar = newBarColor;
+        pokemon.health.current = newHealth;
+        pokemon.health.bar = newBarColor;
 
         // Update UI
-        bar.setAttribute("style", `width: ${newPercentage}%`);
-        bar.classList.remove(previousBarColor);
-        bar.classList.add(newBarColor);
+        pokemon._ui.bar.setAttribute("style", `width: ${newPercentage}%`);
+        pokemon._ui.bar.classList.remove(previousBarColor);
+        pokemon._ui.bar.classList.add(newBarColor);
 
-        health.textContent = `${state.health.current}/${state.health.initial}`;
+        pokemon._ui.health.textContent = `${pokemon.health.current}/${pokemon.health.initial}`;
       }
 
       const game = setInterval(function play() {
         turn();
 
-        if (state.health.current === 0) {
+        if (pokemon.health.current === 0) {
           clearInterval(game);
         }
       }, 1000);
