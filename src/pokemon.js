@@ -27,5 +27,10 @@ function choose(pokemon = {}) {
     <div class="health">${current}/${initial}</div>
   `;
 
-  return [statusContainer];
+  const pokemonContainer = document.createElement("div");
+  pokemonContainer.className = "pokemon";
+
+  pokemonContainer.innerHTML = `<img src="${avatar}" />`;
+
+  return [statusContainer, pokemonContainer];
 }

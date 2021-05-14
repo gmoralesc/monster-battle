@@ -8,20 +8,8 @@
   </head>
   <body>
     <section id="arena">
-      <div class="column">
-        <div class="pokemon">
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
-          />
-        </div>
-      </div>
-      <div class="column">
-        <div class="pokemon">
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
-          />
-        </div>
-      </div>
+      <div class="column"></div>
+      <div class="column"></div>
     </section>
     <section id="indicator">
       <div class="column">
@@ -57,15 +45,21 @@
     <script>
       // Setup
       function setup() {
-        const { pokemons = [], position = 0 } = state;
+        const { pokemons = [] } = state;
         const arena = document.getElementById("arena");
         const columns = document.getElementsByClassName("column");
 
         pokemons.forEach((pokemon, index) => {
           const container = columns[index];
-          const [statusContainer] = choose(pokemon);
+          const [statusContainer, pokemonContainer] = choose(pokemon);
 
-          container.appendChild(statusContainer);
+          if (index === 0) {
+            container.appendChild(statusContainer);
+            container.appendChild(pokemonContainer);
+          } else {
+            container.appendChild(pokemonContainer);
+            container.appendChild(statusContainer);
+          }
 
           const [bar] = container.getElementsByClassName("bar");
           const [health] = container.getElementsByClassName("health");
