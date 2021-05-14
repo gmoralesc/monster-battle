@@ -81,33 +81,46 @@
       // Setup
       const container = document.getElementById("pokemon1");
       const [bar] = container.getElementsByClassName("bar");
+      const [health] = container.getElementsByClassName("health");
 
       // State
-      const health = {
-        initial: 69,
-        current: 69,
-        bar: "green",
+      const state = {
+        health: {
+          initial: 69,
+          current: 69,
+          bar: "green",
+        },
       };
 
-      // Turn
-      const { newHealth, newPercentage } = calculateStatus(
-        health.initial,
-        health.current,
-        getRandomNumber(50)
-      );
-      const newBarColor = calculateBarColor(newPercentage);
-      const previousBarColor = health.bar;
+      function turn() {
+        // Turn
+        const { newHealth, newPercentage } = calculateStatus(
+          state.health.initial,
+          state.health.current,
+          getRandomNumber(50)
+        );
+        const newBarColor = calculateBarColor(newPercentage);
+        const previousBarColor = state.health.bar;
 
-      // Update State
-      health.current = newHealth;
-      health.bar = newBarColor;
+        // Update State
+        state.health.current = newHealth;
+        state.health.bar = newBarColor;
 
-      // Update UI
-      setTimeout(() => {
+        // Update UI
         bar.setAttribute("style", `width: ${newPercentage}%`);
         bar.classList.remove(previousBarColor);
         bar.classList.add(newBarColor);
-      }, 0);
+
+        health.textContent = `${state.health.current}/${state.health.initial}`;
+      }
+
+      const game = setInterval(function play() {
+        turn();
+
+        if (state.health.current === 0) {
+          clearInterval(game);
+        }
+      }, 1000);
     </script>
   </body>
 </html>
