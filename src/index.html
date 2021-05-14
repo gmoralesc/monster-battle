@@ -9,19 +9,6 @@
   <body>
     <section id="arena">
       <div class="column">
-        <div class="status">
-          <div class="info">
-            <p class="name">ivysaur</p>
-          </div>
-          <ul class="types">
-            <li class="button grass">grass</li>
-            <li class="button poison">poison</li>
-          </ul>
-          <div class="meter">
-            <span class="bar green" style="width: 100%"></span>
-          </div>
-          <div class="health">60/60</div>
-        </div>
         <div class="pokemon">
           <img
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
@@ -33,18 +20,6 @@
           <img
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
           />
-        </div>
-        <div class="status">
-          <div class="info">
-            <p class="name">charmeleon</p>
-          </div>
-          <ul class="types">
-            <li class="button fire">fire</li>
-          </ul>
-          <div class="meter">
-            <span class="bar green" style="width: 100%"></span>
-          </div>
-          <div class="health">59/59</div>
         </div>
       </div>
     </section>
@@ -78,15 +53,20 @@
     </p>
     <script src="utils.js"></script>
     <script src="state.js"></script>
+    <script src="pokemon.js"></script>
     <script>
       // Setup
       function setup() {
-        const { pokemons = [] } = state;
+        const { pokemons = [], position = 0 } = state;
         const arena = document.getElementById("arena");
         const columns = document.getElementsByClassName("column");
 
         pokemons.forEach((pokemon, index) => {
           const container = columns[index];
+          const [statusContainer] = choose(pokemon);
+
+          container.appendChild(statusContainer);
+
           const [bar] = container.getElementsByClassName("bar");
           const [health] = container.getElementsByClassName("health");
 
