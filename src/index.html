@@ -12,9 +12,7 @@
       <div class="column"></div>
     </section>
     <section id="indicator">
-      <div class="column">
-        <div class="arrow"></div>
-      </div>
+      <div class="column"></div>
       <div class="column"></div>
     </section>
     <section id="panel">
@@ -80,8 +78,7 @@
         pokemon._ui.health.textContent = `${pokemon.health.current}/${pokemon.health.initial}`;
       }
 
-      setup();
-      const game = setInterval(function play() {
+      function render() {
         const { pokemons = [], position = 0 } = state;
         const pokemon = pokemons[position];
 
@@ -99,6 +96,23 @@
           right.replaceChildren(dialogContainer);
         }
 
+        const indicator = document.getElementById("indicator");
+        const columns = indicator.getElementsByClassName("column");
+        Array.from(columns).forEach((column, index) => {
+          if (index === position) {
+            column.innerHTML = `<div class="arrow"></div>`;
+          } else {
+            column.innerHTML = "";
+          }
+        });
+      }
+
+      setup();
+      const game = setInterval(function play() {
+        const { pokemons = [], position = 0 } = state;
+        const pokemon = pokemons[position];
+
+        render();
         turn();
 
         if (pokemon.health.current === 0) {
