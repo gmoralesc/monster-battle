@@ -70,5 +70,5 @@ const state = {
       },
     },
   ],
-  position: 1,
+  position: 0,
 };

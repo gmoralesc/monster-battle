@@ -34,3 +34,29 @@ function choose(pokemon = {}) {
 
   return [statusContainer, pokemonContainer];
 }
+
+function controls(pokemon = {}, message = "") {
+  const { name = "", moves = [] } = pokemon;
+
+  const dialogContainer = document.createElement("div");
+  dialogContainer.className = "dialog";
+  dialogContainer.innerHTML = `
+    <p>
+      <span class="name">${name}</span>,
+      <span class="message">${message}</span>
+    </p>
+  `;
+
+  const movesContainer = document.createElement("div");
+  movesContainer.className = "moves";
+
+  moves.forEach((move) => {
+    const button = document.createElement("button");
+    button.className = "button black";
+    button.textContent = move.name;
+
+    movesContainer.appendChild(button);
+  });
+
+  return [dialogContainer, movesContainer];
+}

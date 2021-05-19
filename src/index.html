@@ -18,22 +18,8 @@
       <div class="column"></div>
     </section>
     <section id="panel">
-      <div class="column">
-        <div class="dialog">
-          <p>
-            <span class="name">ivysaur</span>,
-            <span class="message">What attack do you want to use?</span>
-          </p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="moves">
-          <button class="button black">tackle</button>
-          <button class="button black">vine-whip</button>
-          <button class="button black">leech-seed</button>
-          <button class="button black">poison-powder</button>
-        </div>
-      </div>
+      <div class="column"></div>
+      <div class="column"></div>
     </section>
     <p id="disclaimer">
       This is not an official pokemon game, this is only for educational
@@ -98,6 +84,20 @@
       const game = setInterval(function play() {
         const { pokemons = [], position = 0 } = state;
         const pokemon = pokemons[position];
+
+        const panel = document.getElementById("panel");
+
+        const message = "What attack do you want to use?";
+        const [dialogContainer, movesContainer] = controls(pokemon, message);
+        const [left, right] = panel.children;
+
+        if (position === 0) {
+          left.replaceChildren(dialogContainer);
+          right.replaceChildren(movesContainer);
+        } else {
+          left.replaceChildren(movesContainer);
+          right.replaceChildren(dialogContainer);
+        }
 
         turn();
 
