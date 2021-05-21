@@ -35,7 +35,7 @@ function choose(pokemon = {}) {
   return [statusContainer, pokemonContainer];
 }
 
-function controls(pokemon = {}, message = "") {
+function controls(pokemon = {}, message = "", callback) {
   const { name = "", moves = [] } = pokemon;
 
   const dialogContainer = document.createElement("div");
@@ -54,6 +54,8 @@ function controls(pokemon = {}, message = "") {
     const button = document.createElement("button");
     button.className = "button black";
     button.textContent = move.name;
+
+    button.addEventListener("click", callback);
 
     movesContainer.appendChild(button);
   });

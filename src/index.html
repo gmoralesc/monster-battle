@@ -55,7 +55,8 @@
 
       function turn() {
         const { pokemons = [], position = 0 } = state;
-        const pokemon = pokemons[position];
+        const attacked = (position + 1) % 2;
+        const pokemon = pokemons[attacked];
 
         // Turn
         const { newHealth, newPercentage } = calculateStatus(
@@ -76,6 +77,11 @@
         pokemon._ui.bar.classList.add(newBarColor);
 
         pokemon._ui.health.textContent = `${pokemon.health.current}/${pokemon.health.initial}`;
+
+        if (pokemon.health.current > 0) {
+          state.position = (state.position + 1) % 2;
+          render();
+        }
       }
 
       function render() {
@@ -85,7 +91,11 @@
         const panel = document.getElementById("panel");
 
         const message = "What attack do you want to use?";
-        const [dialogContainer, movesContainer] = controls(pokemon, message);
+        const [dialogContainer, movesContainer] = controls(
+          pokemon,
+          message,
+          turn
+        );
         const [left, right] = panel.children;
 
         if (position === 0) {
@@ -108,19 +118,7 @@
       }
 
       setup();
-      const game = setInterval(function play() {
-        const { pokemons = [], position = 0 } = state;
-        const pokemon = pokemons[position];
-
-        render();
-        turn();
-
-        if (pokemon.health.current === 0) {
-          clearInterval(game);
-        }
-
-        state.position = (state.position + 1) % 2;
-      }, 1000);
+      render();
     </script>
   </body>
 </html>
