@@ -81,6 +81,13 @@
         if (pokemon.health.current > 0) {
           state.position = (state.position + 1) % 2;
           render();
+        } else {
+          document.querySelector("#panel .message").textContent = "Wins!!!";
+          document
+            .querySelectorAll("#panel .moves button")
+            .forEach((button) => {
+              button.setAttribute("disabled", "");
+            });
         }
       }
 
@@ -117,8 +124,10 @@
         });
       }
 
-      setup();
-      render();
+      window.addEventListener("DOMContentLoaded", (event) => {
+        setup();
+        render();
+      });
     </script>
   </body>
 </html>
