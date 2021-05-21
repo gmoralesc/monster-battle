@@ -1,5 +1,5 @@
 function getRandomNumber(max = 1, min = 1) {
-  return min + Math.floor(Math.random() * max);
+  return min + Math.ceil(Math.random() * max);
 }
 
 function calculateStatus(initial, current, count) {
