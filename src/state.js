@@ -26,8 +26,11 @@ async function getPokemon() {
   //     return formatPokemon(data);
   //   });
   const id = getRandomNumber(898);
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-  const data = await response.json();
+  const data = await $.ajax({
+    url: `https://pokeapi.co/api/v2/pokemon/${id}`,
+    method: "GET",
+  });
+  //const data = await response.json();
   return formatPokemon(data);
 }
 
