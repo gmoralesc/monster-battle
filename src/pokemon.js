@@ -1,4 +1,6 @@
-function choose(pokemon = {}) {
+import $ from "jquery";
+
+export function choose(pokemon = {}) {
   const {
     name = "",
     health: { initial = 0, current = 0, bar = "" },
@@ -16,7 +18,7 @@ function choose(pokemon = {}) {
 
   $(statusContainer).html(`
     <div class="info">
-      <p class="name">${name}</p>
+      <p class="name">Pokemon: ${name}</p>
     </div>
     <ul class="types">
       ${typesString}
@@ -35,7 +37,7 @@ function choose(pokemon = {}) {
   return [statusContainer, pokemonContainer];
 }
 
-function controls(pokemon = {}, message = "", callback) {
+export function controls(pokemon = {}, message = "", callback) {
   const { name = "", moves = [] } = pokemon;
 
   const dialogContainer = document.createElement("div");

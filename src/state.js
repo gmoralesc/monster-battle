@@ -1,3 +1,7 @@
+import $ from "jquery";
+
+import { getRandomNumber } from "./utils";
+
 function formatPokemon(data) {
   return {
     name: data.name,
@@ -34,7 +38,7 @@ async function getPokemon() {
   return formatPokemon(data);
 }
 
-async function getState() {
+export async function getState() {
   // return Promise.all([getPokemon(), getPokemon()]).then((data) => {
   //   return {
   //     pokemons: data,
