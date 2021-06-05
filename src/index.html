@@ -83,6 +83,33 @@
             `${pokemon.health.current}/${pokemon.health.initial}`
           );
 
+          // Animations
+          const pokemonActive = $($("#arena .column")[position]).find("img");
+
+          const dirLeft = position === 0 ? "+" : "-";
+          const dirTop = position === 0 ? "-" : "+";
+          $(pokemonActive).animate(
+            {
+              "margin-left": `${dirLeft}=150px`,
+              "margin-top": `${dirTop}=100px`,
+            },
+            100
+          );
+          $(pokemonActive).animate(
+            {
+              "margin-left": `${dirTop}=150px`,
+              "margin-top": `${dirLeft}=100px`,
+            },
+            100
+          );
+
+          const pokemonAttacked = $($("#arena .column")[attacked]).find("img");
+
+          $(pokemonAttacked).animate({ "margin-left": "-=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "+=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "+=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "-=50px" }, 100);
+
           if (pokemon.health.current > 0) {
             state.position = (state.position + 1) % 2;
             render();
