@@ -16,7 +16,7 @@ Base branch to start from scracth
 
 ### jquery
 
-Tranlasiting from Vanilla Javascript to use jQuery, add some effects
+Tranlasiting from Vanilla Javascript to jQuery with some animation
 
 ### webpack
 
@@ -30,7 +30,7 @@ Development
 
 `npm run dev`
 
-To build the project:
+Build project
 
 `npm run build`
 
