@@ -23,6 +23,7 @@
       This is not an official pokemon game, this is only for educational
       proposes
     </p>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="utils.js"></script>
     <script src="state.js"></script>
     <script src="pokemon.js"></script>
@@ -33,23 +34,21 @@
         // Setup
         function setup() {
           const { pokemons = [] } = state;
-          const arena = document.getElementById("arena");
-          const columns = document.getElementsByClassName("column");
+          const arena = $("#arena");
+          const columns = $(".column");
 
           pokemons.forEach((pokemon, index) => {
             const container = columns[index];
-            const [statusContainer, pokemonContainer] = choose(pokemon);
+            const containers = choose(pokemon);
 
             if (index === 0) {
-              container.appendChild(statusContainer);
-              container.appendChild(pokemonContainer);
+              $(container).append(containers);
             } else {
-              container.appendChild(pokemonContainer);
-              container.appendChild(statusContainer);
+              $(container).append(containers.reverse());
             }
 
-            const [bar] = container.getElementsByClassName("bar");
-            const [health] = container.getElementsByClassName("health");
+            const [bar] = $(container).find(".bar");
+            const [health] = $(container).find(".health");
 
             pokemon._ui.bar = bar;
             pokemon._ui.health = health;
@@ -75,22 +74,48 @@
           pokemon.health.bar = newBarColor;
 
           // Update UI
-          pokemon._ui.bar.setAttribute("style", `width: ${newPercentage}%`);
-          pokemon._ui.bar.classList.remove(previousBarColor);
-          pokemon._ui.bar.classList.add(newBarColor);
+          $(pokemon._ui.bar)
+            .attr("style", `width: ${newPercentage}%`)
+            .removeClass(previousBarColor)
+            .addClass(newBarColor);
 
-          pokemon._ui.health.textContent = `${pokemon.health.current}/${pokemon.health.initial}`;
+          $(pokemon._ui.health).text(
+            `${pokemon.health.current}/${pokemon.health.initial}`
+          );
+
+          // Animations
+          const pokemonActive = $($("#arena .column")[position]).find("img");
+
+          const dirLeft = position === 0 ? "+" : "-";
+          const dirTop = position === 0 ? "-" : "+";
+          $(pokemonActive).animate(
+            {
+              "margin-left": `${dirLeft}=100px`,
+              "margin-top": `${dirTop}=50px`,
+            },
+            100
+          );
+          $(pokemonActive).animate(
+            {
+              "margin-left": `${dirTop}=100px`,
+              "margin-top": `${dirLeft}=50px`,
+            },
+            100
+          );
+
+          const pokemonAttacked = $($("#arena .column")[attacked]).find("img");
+
+          $(pokemonAttacked).animate({ "margin-left": "-=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "+=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "+=50px" }, 100);
+          $(pokemonAttacked).animate({ "margin-left": "-=50px" }, 100);
 
           if (pokemon.health.current > 0) {
             state.position = (state.position + 1) % 2;
             render();
           } else {
-            document.querySelector("#panel .message").textContent = "Wins!!!";
-            document
-              .querySelectorAll("#panel .moves button")
-              .forEach((button) => {
-                button.setAttribute("disabled", "");
-              });
+            $("#panel .message").text("Wins!!!");
+            $("#panel .moves button").attr("disabled", "");
           }
         }
 
@@ -98,7 +123,7 @@
           const { pokemons = [], position = 0 } = state;
           const pokemon = pokemons[position];
 
-          const panel = document.getElementById("panel");
+          const panel = $("#panel");
 
           const message = "What attack do you want to use?";
           const [dialogContainer, movesContainer] = controls(
@@ -106,28 +131,30 @@
             message,
             turn
           );
-          const [left, right] = panel.children;
+          const [left, right] = $(panel).children();
 
           if (position === 0) {
-            left.replaceChildren(dialogContainer);
-            right.replaceChildren(movesContainer);
+            $(left).empty().append(dialogContainer);
+            $(right).empty().append(movesContainer);
           } else {
-            left.replaceChildren(movesContainer);
-            right.replaceChildren(dialogContainer);
+            $(left).empty().append(movesContainer);
+            $(right).empty().append(dialogContainer);
           }
 
-          const indicator = document.getElementById("indicator");
-          const columns = indicator.getElementsByClassName("column");
-          Array.from(columns).forEach((column, index) => {
-            if (index === position) {
-              column.innerHTML = `<div class="arrow"></div>`;
-            } else {
-              column.innerHTML = "";
-            }
-          });
+          const indicator = $("#indicator");
+
+          $(indicator)
+            .find(".column")
+            .each(function (index) {
+              if (index === position) {
+                $(this).html(`<div class="arrow"></div>`);
+              } else {
+                $(this).empty();
+              }
+            });
         }
 
-        window.addEventListener("DOMContentLoaded", async (event) => {
+        $(document).ready(async (event) => {
           // getState().then((data) => {
           //   state = data;
           //   setup();
